@@ -19,8 +19,11 @@
   "dependencies": {
     "trash": "^2.0.0"
   },
+  "devDependencies": {
+    "github-release-from-changelog": "^1.0.0"
+  },
   "scripts": {
     "test": "echo \"I use myself to publish myself, that's how I test myself.\"",
-    "release": "./npmpublish.sh"
+    "release": "./npmpublish.sh && github-release-from-changelog"
   }
 }
