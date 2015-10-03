@@ -3,6 +3,9 @@
 git pull --rebase &&
 npm install &&
 npm test &&
-npm version ${1:-patch} &&
+
+git tag $(node -e 'process.stdout.write(require("./package.json").version)') &&
+
 npm publish &&
+
 git push --follow-tags

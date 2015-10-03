@@ -1,23 +1,7 @@
 {
-  "name": "np",
-  "version": "1.0.2",
-  "description": "A better `npm publish`",
-  "license": "MIT",
-  "repository": "sindresorhus/np",
-  "author": {
-    "name": "Sindre Sorhus",
-    "email": "sindresorhus@gmail.com",
-    "url": "sindresorhus.com"
-  },
-  "bin": {
-    "np": "np.sh"
-  },
-  "engines": {
-    "node": ">=0.10.0"
-  },
-  "files": [
-    "np.sh"
-  ],
+  "name": "npmpub",
+  "version": "1.0.0",
+  "description": "Another better `npm publish`",
   "keywords": [
     "cli-app",
     "cli",
@@ -26,7 +10,17 @@
     "git",
     "push"
   ],
+  "author": "Maxime Thirouin",
+  "license": "MIT",
+  "repository": "https://github.com/MoOx/npmpublish.git",
+  "bin": {
+    "npmpublish": "npmpublish.sh"
+  },
   "dependencies": {
     "trash": "^2.0.0"
+  },
+  "scripts": {
+    "test": "echo \"I use myself to publish myself, that's how I test myself.\"",
+    "release": "./npmpublish.sh"
   }
 }
