@@ -1,5 +1,6 @@
 #!/usr/bin/env sh
-./node_modules/.bin/trash node_modules &>/dev/null;
+trashCli=$(node -e "var path = require('path');console.log(path.join(path.dirname(require('fs').realpathSync('$0')), 'node_modules/.bin/trash'))");
+node "$trashCli" node_modules &&
 git pull --rebase &&
 npm install &&
 npm test &&
