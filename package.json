@@ -1,6 +1,6 @@
 {
   "name": "npmpub",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Another better `npm publish`",
   "keywords": [
     "cli-app",
@@ -8,7 +8,10 @@
     "npm",
     "publish",
     "git",
-    "push"
+    "push",
+    "version",
+    "bump",
+    "commit"
   ],
   "author": "Maxime Thirouin",
   "license": "MIT",
