@@ -17,7 +17,7 @@
     "npmpublish": "npmpublish.sh"
   },
   "dependencies": {
-    "trash": "^2.0.0"
+    "trash-cli": "^1.2.0"
   },
   "devDependencies": {
     "github-release-from-changelog": "^1.0.0"
