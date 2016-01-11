@@ -10,8 +10,11 @@ $realPath/node_modules/.bin/trash node_modules
 npm install &&
 npm test &&
 
+# tag from current version in package.json
 git tag $(node -e 'process.stdout.write(require("./package.json").version)') &&
 
+# publish the tagged version
 npm publish &&
 
+# push tag
 git push --follow-tags
