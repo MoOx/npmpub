@@ -152,7 +152,7 @@ cleanupPromise
     }
     else {
       notice("Publishing...")
-      const npmPublish = exec("npmPublish " + version)
+      const npmPublish = exec("npm publish")
       if (npmPublish.code !== 0) {
         error("Publishing failed.")
         exit(1)

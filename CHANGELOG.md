@@ -1,3 +1,7 @@
+# 3.0.1 - 2016-01-20
+
+- Fixed: "npm publish" should actually call "npm publish", not "npmPublish".
+
 # 3.0.0 - 2016-01-20
 
 **Complete rewrite using Node.js instead of sh.**
