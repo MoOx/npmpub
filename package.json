@@ -1,7 +1,7 @@
 {
   "name": "npmpub",
-  "version": "2.0.0",
-  "description": "Another better `npm publish`",
+  "version": "3.0.0",
+  "description": "`npm publish` on steroid",
   "keywords": [
     "cli-app",
     "cli",
@@ -15,18 +15,30 @@
   ],
   "author": "Maxime Thirouin",
   "license": "MIT",
-  "repository": "https://github.com/MoOx/npmpublish.git",
+  "repository": "https://github.com/MoOx/npmpub.git",
   "bin": {
-    "npmpublish": "npmpublish.sh"
+    "npmpub": "npmpub.js"
   },
+  "files": [
+    "npmpub.js"
+  ],
   "dependencies": {
-    "trash-cli": "^1.2.0"
+    "chalk": "^1.1.1",
+    "github-release-from-changelog": "^1.1.1",
+    "minimist": "^1.2.0",
+    "shelljs": "^0.5.3",
+    "trash": "^3.4.1"
   },
   "devDependencies": {
-    "github-release-from-changelog": "^1.0.0"
+    "eslint": "^1.10.3",
+    "eslint-config-i-am-meticulous": "^2.0.0"
   },
   "scripts": {
+    "pretest": "eslint --fix .",
     "test": "echo \"I use myself to publish myself, that's how I test myself.\"",
-    "release": "./npmpublish.sh && github-release-from-changelog"
+    "release": "./npmpub.js --verbose --debug"
+  },
+  "eslintConfig": {
+    "extends": "eslint-config-i-am-meticulous"
   }
 }
