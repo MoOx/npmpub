@@ -19,6 +19,19 @@ faster, just use this package/command!
 - Edits the tag as a GitHub release based on the new version and corresponding
   changelog version.
 
+## Requirements
+
+*In order to make use this package and the "GitHub release" feature, you will
+need a ``$GITHUB_TOKEN`` available as an env variable.
+If you want to use everything except this feature, just use the `--no-release`
+option (see below).*
+
+- You can generate a
+  [token from GitHub interface](https://help.github.com/articles/creating-an-access-token-for-command-line-use/)
+- Put it in ``~/.github_token``
+- In your ``.bashrc/zshrc``, export it by adding
+  ``export GITHUB_TOKEN=$(cat $HOME/.github_token)``.
+
 ## Install
 
 ```
