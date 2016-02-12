@@ -1,3 +1,7 @@
+# 3.0.3 - 2016-02-12
+
+- Fixed: 3.0.2 deactivated auto GitHub release. This is now fixed.
+
 # 3.0.2 - 2016-02-12
 
 - Fixed: ``--no-release`` flag now works.

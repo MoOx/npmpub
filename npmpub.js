@@ -11,7 +11,12 @@ const exit = sh.exit
 const parseArgs = require("minimist")
 const trash = require("trash")
 
-const argv = parseArgs(process.argv.slice(2), { boolean: true })
+const argv = parseArgs(process.argv.slice(2), {
+  boolean: true,
+  default: {
+    release: true,
+  },
+})
 
 const print = (msg) => console.log("📦  " + msg)
 const notice = (msg) => print(colors.yellow.bold(msg))
