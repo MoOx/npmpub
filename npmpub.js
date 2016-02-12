@@ -172,7 +172,7 @@ cleanupPromise
         exit(1)
       }
 
-      if (argv["no-release"]) {
+      if (!argv["release"]) {
         log("No GitHub release.")
       }
       else {

@@ -1,3 +1,7 @@
+# 3.0.2 - 2016-02-12
+
+- Fixed: ``--no-release`` flag now works.
+
 # 3.0.1 - 2016-01-20
 
 - Fixed: "npm publish" should actually call "npm publish", not "npmPublish".
