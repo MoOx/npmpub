@@ -41,6 +41,7 @@ if (argv["help"]) {
   --skip-fetch    Skip git fetch to compare remote (⚠︎ you might not be able to push).
   --skip-compare  Skip git comparison with origin (⚠︎ you might not be able to push).
   --skip-cleanup  Skip node_modules cleanup (⚠︎ you might miss some dependencies changes).
+  --skip-test     Skip test (⚠︎ USE THIS VERY CAREFULLY).
   --dry           No publish, just check that tests are ok.
   --no-release    No GitHub release from changelog.
 `)
@@ -146,10 +147,15 @@ else {
 
 cleanupPromise
   .then(() => {
-    notice("Running tests...")
-    const npmTest = exec("npm test")
-    if (npmTest.code !== 0) {
-      throw new Error("'npm test' failed.")
+    if (argv["skip-test"]) {
+      log("Test skipped.")
+    }
+    else {
+      notice("Running tests...")
+      const npmTest = exec("npm test")
+      if (npmTest.code !== 0) {
+        throw new Error("'npm test' failed.")
+      }
     }
 
     if (argv.dry) {

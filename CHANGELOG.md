@@ -1,3 +1,11 @@
+# 3.1.0 - 2016-03-12
+
+- Added: ``--skip-test``, because you might need it for shitty test runner
+  (eg: ``testling`` don't like to be ran from another location).  
+  **That's a pretty stupid option, I agree.**
+
+  _Recommended Usage: ``npm test && npmpub --skip-test``._
+
 # 3.0.3 - 2016-02-12
 
 - Fixed: 3.0.2 deactivated auto GitHub release. This is now fixed.
