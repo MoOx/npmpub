@@ -17,7 +17,8 @@ faster, just use this package/command!
 - Creates a git tag.
 - Pushes commits and tags to GitHub.
 - Edits the tag as a GitHub release based on the new version and corresponding
-  changelog version.
+  changelog version
+  (using [github-release-from-changelog](https://github.com/MoOx/github-release-from-changelog)).
 
 ## Requirements
 
