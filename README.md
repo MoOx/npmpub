@@ -109,6 +109,10 @@ npmpub [options]
 --no-release    No GitHub release from changelog.
 ```
 
+## Gotchas
+
+- [Not fully compatible with npm@2](https://github.com/MoOx/npmpub/issues/9)
+
 ---
 
 ## CONTRIBUTING
