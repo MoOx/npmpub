@@ -170,7 +170,8 @@ cleanupPromise
       }
 
       log("Tagging.")
-      const gitTag = exec("git tag " + version)
+      const gitTag = exec("git tag -m \"Release version " + version
+        + "created with npmpub\" -a " + version)
       if (gitTag.code !== 0) {
         error("Tagging failed.")
         exit(1)
