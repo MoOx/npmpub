@@ -1,4 +1,4 @@
-# 3.1.1 - 2016-12-16
+# 3.1.11 - 2016-12-16
 
 - Fixed: tags are now annotated tags.
 
