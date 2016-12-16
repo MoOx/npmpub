@@ -1,7 +1,11 @@
+# 3.1.1 - 2016-12-16
+
+- Fixed: tags are now annotated tags.
+
 # 3.1.0 - 2016-03-12
 
 - Added: ``--skip-test``, because you might need it for shitty test runner
-  (eg: ``testling`` don't like to be ran from another location).  
+  (eg: ``testling`` don't like to be ran from another location).
   **That's a pretty stupid option, I agree.**
 
   _Recommended Usage: ``npm test && npmpub --skip-test``._
