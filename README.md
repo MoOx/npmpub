@@ -1,4 +1,4 @@
-# npmpub
+# npmpub [![NPM version](https://img.shields.io/npm/v/npmpub.svg?style=flat)](https://www.npmjs.com/package/npmpub)
 
 > `npm publish` on steroid
 
