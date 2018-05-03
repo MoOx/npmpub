@@ -41,6 +41,7 @@ if (argv["help"]) {
   --skip-fetch    Skip git fetch to compare remote (⚠︎ you might not be able to push).
   --skip-compare  Skip git comparison with origin (⚠︎ you might not be able to push).
   --skip-cleanup  Skip node_modules cleanup (⚠︎ you might miss some dependencies changes).
+  --skip-tag      Skip checking for, adding, and pushing a tag with the new version number.
   --skip-test     Skip test (⚠︎ USE THIS VERY CAREFULLY).
   --dry           No publish, just check that tests are ok.
   --no-release    No GitHub release from changelog.
@@ -104,15 +105,21 @@ log("package.json is '" + pkg + "'.")
 const version = require(pkg).version
 notice("Preparing v" + version + ".")
 
-log("Checking existing tags.")
-const gitTags = exec("git tag", { silent: true })
-if (gitTags.code !== 0) {
-  error("Can't read tags.")
-  exit(1)
+// add tag
+if (argv["skip-tag"]) {
+    log("Tag check skipped.")
 }
-else if (gitTags.output.split("\n").indexOf(version) > -1) {
-  error("Tag already exist.")
-  exit(1)
+else {
+    log("Checking existing tags.")
+    const gitTags = exec("git tag", {silent: true})
+    if (gitTags.code !== 0) {
+        error("Can't read tags.")
+        exit(1)
+    }
+    else if (gitTags.output.split("\n").indexOf(version) > -1) {
+        error("Tag already exists.")
+        exit(1)
+    }
 }
 
 let cleanupPromise
@@ -169,18 +176,23 @@ cleanupPromise
         exit(1)
       }
 
-      log("Tagging.")
-      const gitTag = exec("git tag " + version)
-      if (gitTag.code !== 0) {
-        error("Tagging failed.")
-        exit(1)
+      if (argv["skip-tag"]) {
+          log("Tagging skipped.")
       }
+      else {
+          log("Tagging.")
+          const gitTag = exec("git tag " + version)
+          if (gitTag.code !== 0) {
+              error("Tagging failed.")
+              exit(1)
+          }
 
-      log("Git push.")
-      const gitPush = exec("git push --follow-tags")
-      if (gitPush.code !== 0) {
-        error("pushing failed.")
-        exit(1)
+          log("Git push.")
+          const gitPush = exec("git push --follow-tags")
+          if (gitPush.code !== 0) {
+              error("pushing failed.")
+              exit(1)
+          }
       }
 
       if (!argv["release"]) {
