@@ -1,15 +1,12 @@
-#!/usr/bin/env node
-
-"use strict";
-
 const path = require("path");
 
 const colors = require("chalk");
 const sh = require("shelljs");
-const exec = sh.exec;
-const exit = sh.exit;
 const parseArgs = require("minimist");
 const trash = require("trash");
+
+const exec = sh.exec;
+const exit = sh.exit;
 
 const argv = parseArgs(process.argv.slice(2), {
   boolean: true,

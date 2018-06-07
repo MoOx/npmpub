@@ -17,9 +17,10 @@
   "license": "MIT",
   "repository": "https://github.com/MoOx/npmpub.git",
   "bin": {
-    "npmpub": "npmpub.js"
+    "npmpub": "bin.js"
   },
   "files": [
+    "bin.js",
     "npmpub.js"
   ],
   "dependencies": {
@@ -30,8 +31,8 @@
     "trash": "^3.4.1"
   },
   "devDependencies": {
-    "eslint": "^1.10.3",
-    "eslint-config-i-am-meticulous": "^2.0.0",
+    "eslint": "^4.19.1",
+    "eslint-config-i-am-meticulous": "^8.0.0",
     "husky": "^0.14.3",
     "prettier": "^1.13.4",
     "pretty-quick": "^1.6.0"
@@ -40,7 +41,7 @@
     "precommit": "pretty-quick --staged",
     "pretest": "eslint --fix .",
     "test": "echo \"I use myself to publish myself, that's how I test myself.\"",
-    "release": "./npmpub.js --verbose --debug"
+    "release": "./bin.js --verbose --debug"
   },
   "eslintConfig": {
     "extends": "eslint-config-i-am-meticulous"

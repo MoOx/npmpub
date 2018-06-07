@@ -2,12 +2,12 @@
 /*
 hum sorry, it's not automated yet
 
-./npmpub.js --verbose --debug --skip-status --skip-fetch --skip-compare --skip-cleanup --dry
-./npmpub.js --verbose --debug --skip-fetch --skip-compare --skip-cleanup --dry
-./npmpub.js --verbose --debug --skip-compare --skip-cleanup --dry
-./npmpub.js --verbose --skip-cleanup --dry
-./npmpub.js --skip-cleanup --dry
-./npmpub.js --dry
+./bin.js --verbose --debug --skip-status --skip-fetch --skip-compare --skip-cleanup --dry
+./bin.js --verbose --debug --skip-fetch --skip-compare --skip-cleanup --dry
+./bin.js --verbose --debug --skip-compare --skip-cleanup --dry
+./bin.js --verbose --skip-cleanup --dry
+./bin.js --skip-cleanup --dry
+./bin.js --dry
 
 Then when everything is ready, pray and try
 
