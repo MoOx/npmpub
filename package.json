@@ -31,9 +31,13 @@
   },
   "devDependencies": {
     "eslint": "^1.10.3",
-    "eslint-config-i-am-meticulous": "^2.0.0"
+    "eslint-config-i-am-meticulous": "^2.0.0",
+    "husky": "^0.14.3",
+    "prettier": "^1.13.4",
+    "pretty-quick": "^1.6.0"
   },
   "scripts": {
+    "precommit": "pretty-quick --staged",
     "pretest": "eslint --fix .",
     "test": "echo \"I use myself to publish myself, that's how I test myself.\"",
     "release": "./npmpub.js --verbose --debug"
