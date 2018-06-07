@@ -27,7 +27,7 @@ const error = msg => print(colors.red.bold(msg));
 const cmds = {
   gitStatus: "git status --porcelain",
   gitFetch: "git fetch --quiet",
-  gitCheckRemote: "git rev-list --count --left-only @{u}...HEAD"
+  gitCheckRemote: "git rev-list --count --left-only @'{u}'...HEAD"
 };
 
 if (argv["help"]) {
