@@ -4,7 +4,7 @@
 
 ## What is this?
 
-The ``npm publish`` command is nice, but you always have to handle things before
+The `npm publish` command is nice, but you always have to handle things before
 (fresh tests) and after (tag, GitHub release)... So if you want to release
 faster, just use this package/command!
 
@@ -22,21 +22,26 @@ faster, just use this package/command!
 
 ## Requirements
 
-*In order to make use this package and the "GitHub release" feature, you will
-need a ``$GITHUB_TOKEN`` available as an env variable.
+- npm ( 5.7 if you don't use yarn - to use `npm ci`)
+- yarn (optional)
+
+_In order to make use this package and the "GitHub release" feature, you will
+need a `$GITHUB_TOKEN` available as an env variable.
 If you want to use everything except this feature, just use the `--no-release`
-option (see below).*
+option (see below)._
 
 - You can generate a
   [token from GitHub interface](https://help.github.com/articles/creating-an-access-token-for-command-line-use/)
-- Put it in ``~/.github_token``
-- In your ``.bashrc/zshrc``, export it by adding
-  ``export GITHUB_TOKEN=$(cat $HOME/.github_token)``.
+- Put it in `~/.github_token`
+- In your `.bashrc/zshrc`, export it by adding
+  `export GITHUB_TOKEN=$(cat $HOME/.github_token)`.
 
 ## Install
 
 ```
 $ npm install -D npmpub
+# -- or --
+$ yarn add --dev npmpub
 ```
 
 ## Usage
@@ -44,24 +49,24 @@ $ npm install -D npmpub
 Since you are probably
 [maintaining a CHANGELOG (or you should)](http://keepachangelog.com/), you
 already handle by hand version number (because you care about
-  [semver](http://semver.org/), don't you?).
+[semver](http://semver.org/), don't you?).
 
 So here is how to use this command:
 
-- Prepare your ``CHANGELOG``. The best (and easy way) to do this is by
+- Prepare your `CHANGELOG`. The best (and easy way) to do this is by
   preparing your changelog while you commit your features/fixes.
   It make the release process more easy.
   So when you commit an API change, a feature or a fix, add your commit message
   in your CHANGELOG prefixed by _Removed/Changed/Added/Fixed_.
-- Update your version number in your ``CHANGELOG``.
+- Update your version number in your `CHANGELOG`.
   It's very easy to choose a version number:
   - If you have at least a _Removed_ or a _Changed_, it's a **breaking change**,
-  so increment the first number (X.y.z),
+    so increment the first number (X.y.z),
   - If you have _Added_ something, it's a **minor change**,
-  so increment the second number (x.Y.z),
+    so increment the second number (x.Y.z),
   - If you just have _Fixed_ something, it's a **patch**,
-  so increment the last number (x.y.Z).
-- Update your version number in your ``package.json``
+    so increment the last number (x.y.Z).
+- Update your version number in your `package.json`
 - Commit
 - Run `npmpub` so have a clean release (fresh tests + tag + GitHub release
   notes)
@@ -74,7 +79,7 @@ There is two way:
 $ ./node_modules/.bin/npmpub
 ```
 
-Or you can add a npm scripts in your ``package.json``
+Or you can add a npm scripts in your `package.json`
 
 ```json
 {
@@ -88,6 +93,8 @@ This way you can run
 
 ```console
 $ npm run release
+# -- or --
+$ yarn release
 ```
 
 ## Options
@@ -109,16 +116,12 @@ npmpub [options]
 --no-release    No GitHub release from changelog.
 ```
 
-## Gotchas
-
-- [Not fully compatible with npm@2](https://github.com/MoOx/npmpub/issues/9)
-
 ---
 
 ## CONTRIBUTING
 
-* ⇄ Pull requests and ★ Stars are always welcome.
-* For bugs and feature requests, please create an issue.
+- ⇄ Pull requests and ★ Stars are always welcome.
+- For bugs and feature requests, please create an issue.
 
 ## [CHANGELOG](CHANGELOG.md)
 

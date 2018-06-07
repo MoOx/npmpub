@@ -22,6 +22,8 @@ const debug = msg => argv.debug && print(msg);
 const error = msg => print(colors.red.bold(msg));
 
 const cmds = {
+  isYarn: "ls yarn.lock",
+  install: undefined, // defined after isYarn test
   gitStatus: "git status --porcelain",
   gitFetch: "git fetch --quiet",
   gitCheckRemote: "git rev-list --count --left-only @'{u}'...HEAD"
@@ -47,6 +49,14 @@ if (argv["help"]) {
 }
 
 const execOpts = { silent: !argv.debug };
+
+// check if yarn is used
+debug(cmds.isYarn);
+const isYarn = exec(cmds.isYarn, execOpts).code === 0;
+if (isYarn) {
+  log("Yarn detected.");
+}
+cmds.install = isYarn ? "yarn --frozen-lockfile" : "npm ci";
 
 // check clean status
 if (argv["skip-status"]) {
@@ -117,14 +127,15 @@ if (argv["skip-cleanup"]) {
   }
   cleanupPromise = trash([nodeModules]).then(() => {
     log("node_modules deleted.");
-    notice("Running 'npm install'. This can take a while.");
+
+    notice("Running '" + cmds.install + "'. This can take a while.");
     return new Promise(resolve => {
-      exec("npm install", execOpts, (code, stdout, stderr) => {
+      exec(cmds.install, execOpts, (code, stdout, stderr) => {
         if (code === 0) {
           resolve();
         } else {
           console.log(stderr);
-          error("npm install failed.");
+          error(cmds.install + " failed.");
           exit(1);
         }
       });
