@@ -1,9 +1,10 @@
+# 4.0.1 - 2018-06-07
+
+- Fixed: annotated tags won't have "created with npmpub" anymore.
+
 # 4.0.0 - 2018-06-07
 
 - Use `yarn --frozen-lockfile` or `npm ci` for cleanup
-
-# 3.1.1 - 2016-12-16
-
 - Fixed: tags are now annotated tags.
 
 # 3.1.0 - 2016-03-12
