@@ -23,6 +23,7 @@ const error = msg => print(colors.red.bold(msg));
 
 const cmds = {
   isYarn: "ls yarn.lock",
+  isPackageLockPresent: "ls package-lock.json",
   install: undefined, // defined after isYarn test
   gitStatus: "git status --porcelain",
   gitFetch: "git fetch --quiet",
@@ -56,7 +57,22 @@ const isYarn = exec(cmds.isYarn, execOpts).code === 0;
 if (isYarn) {
   log("Yarn detected.");
 }
-cmds.install = isYarn ? "yarn --frozen-lockfile" : "npm ci";
+
+// check if package-lock is used
+debug(cmds.isPackageLockPresent);
+const isPackageLockPresent =
+  exec(cmds.isPackageLockPresent, execOpts).code === 0;
+if (isPackageLockPresent) {
+  log("package-lock.json detected.");
+}
+
+if (isYarn) {
+  cmds.install = "yarn --frozen-lockfile";
+} else if (isPackageLockPresent) {
+  cmds.install = "npm ci";
+} else {
+  cmds.install = "npm install";
+}
 
 // check clean status
 if (argv["skip-status"]) {
