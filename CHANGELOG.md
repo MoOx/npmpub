@@ -1,3 +1,7 @@
+# 4.1.0 - 2018-07-29
+
+- Use `npm install` if no lock files found (by @hudochenkov in [#25](https://github.com/MoOx/npmpub/pull/25)).
+
 # 4.0.1 - 2018-06-07
 
 - Fixed: annotated tags won't have "created with npmpub" anymore.
