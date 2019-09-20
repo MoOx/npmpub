@@ -41,6 +41,9 @@
     "test": "echo \"I use myself to publish myself, that's how I test myself.\"",
     "release": "./bin.js --verbose --debug"
   },
+  "engines": {
+    "node": ">=8.0.0"
+  },
   "eslintConfig": {
     "parserOptions": {
       "ecmaVersion": 6
