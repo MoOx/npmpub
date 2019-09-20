@@ -31,7 +31,7 @@
     "trash": "^3.4.1"
   },
   "devDependencies": {
-    "eslint": "^4.19.1",
+    "eslint": "^6.4.0",
     "husky": "^0.14.3",
     "prettier": "^1.13.4",
     "pretty-quick": "^1.6.0"
