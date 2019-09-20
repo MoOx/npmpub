@@ -1,4 +1,7 @@
-# npmpub [![NPM version](https://img.shields.io/npm/v/npmpub.svg?style=flat)](https://www.npmjs.com/package/npmpub)
+# npmpub
+
+[![Build Status](https://github.com/MoOx/npmpub/workflows/Build/badge.svg)](https://github.com/MoOx/npmpub/actions)
+[![NPM version](https://img.shields.io/npm/v/npmpub.svg?style=flat)](https://www.npmjs.com/package/npmpub)
 
 > `npm publish` on steroid
 
