@@ -115,6 +115,8 @@ npmpub [options]
 --skip-compare  Skip git comparison with origin (⚠︎ you might not be able to push).
 --skip-cleanup  Skip node_modules cleanup (⚠︎ you might miss some dependencies changes).
 --skip-test     Skip test (⚠︎ USE THIS VERY CAREFULLY).
+--otp           Prompt for npm's 2FA one-time-password before publishing
+--public        Set access to public when publishing @scoped/package
 --dry           No publish, just check that tests are ok.
 --no-release    No GitHub release from changelog.
 ```

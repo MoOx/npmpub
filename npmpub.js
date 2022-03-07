@@ -1,4 +1,5 @@
 const path = require("path");
+const readline = require("readline");
 
 const colors = require("chalk");
 const sh = require("shelljs");
@@ -42,6 +43,8 @@ if (argv["help"]) {
   --skip-compare  Skip git comparison with origin (⚠︎ you might not be able to push).
   --skip-cleanup  Skip node_modules cleanup (⚠︎ you might miss some dependencies changes).
   --skip-test     Skip test (⚠︎ USE THIS VERY CAREFULLY).
+  --otp           Prompt for npm's 2FA one-time-password before publishing
+  --public        Set access to public when publishing @scoped/package
   --dry           No publish, just check that tests are ok.
   --no-release    No GitHub release from changelog.
 `);
@@ -160,7 +163,7 @@ if (argv["skip-cleanup"]) {
 }
 
 cleanupPromise
-  .then(() => {
+  .then(async () => {
     if (argv["skip-test"]) {
       log("Test skipped.");
     } else {
@@ -174,8 +177,30 @@ cleanupPromise
     if (argv.dry) {
       notice("Dry run. No publish.");
     } else {
+      const flags = [];
+      // prompt user to enter npm's two-factor authentication's one-time-password
+      if (argv["otp"]) {
+        let otp = await new Promise(resolve => {
+          const rl = readline.createInterface({
+            input: process.stdin,
+            output: process.stdout
+          });
+
+          rl.question("Enter OTP:", answer => {
+            rl.close();
+            resolve(answer);
+          });
+        });
+        flags.push(`--otp=${otp}`);
+      }
+
+      if (argv["public"]) {
+        // is needed for (public) scoped npm packages
+        flags.push("--access=public");
+      }
+
       notice("Publishing...");
-      const npmPublish = exec("npm publish");
+      const npmPublish = exec(`npm publish ${flags.join(" ")}`);
       if (npmPublish.code !== 0) {
         error("Publishing failed.");
         exit(1);
