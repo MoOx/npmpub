@@ -1,5 +1,9 @@
 # `npmpub` Changelog
 
+## 5.1.0 - 2022-03-07
+
+- Add support for otp flag for npm publish [#28](https://github.com/MoOx/npmpub/pull/28) by [@mbehzad](https://github.com/mbehzad)
+
 ## 5.0.0 - 2019-09-20
 
 - Bump github-release-from-changelog to v2 to support more changelog formats.
