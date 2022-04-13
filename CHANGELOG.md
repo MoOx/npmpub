@@ -1,5 +1,9 @@
 # `npmpub` Changelog
 
+## 5.1.1 - 2022-04-13
+
+- Bump shelljs to avoid security issue.
+
 ## 5.1.0 - 2022-03-07
 
 - Add support for otp flag for npm publish [#28](https://github.com/MoOx/npmpub/pull/28) by [@mbehzad](https://github.com/mbehzad)
