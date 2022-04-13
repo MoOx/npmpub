@@ -83,7 +83,7 @@ if (argv["skip-status"]) {
 } else {
   debug(cmds.gitStatus);
   const gitStatus = exec(cmds.gitStatus, execOpts);
-  if (gitStatus.code !== 0 || gitStatus.output !== "") {
+  if (gitStatus.code !== 0 || gitStatus.stdout !== "") {
     error("Unclean working tree. Commit or stash changes first.");
     exit(1);
   } else {
@@ -111,7 +111,7 @@ if (argv["skip-compare"]) {
 } else {
   debug(cmds.gitCheckRemote);
   const gitCheckRemote = exec(cmds.gitCheckRemote, execOpts);
-  if (gitCheckRemote.output !== "0\n") {
+  if (gitCheckRemote.stdout !== "0\n") {
     error("Remote history differ. Please pull changes.");
     exit(1);
   } else {
@@ -129,7 +129,7 @@ const gitTags = exec("git tag", { silent: true });
 if (gitTags.code !== 0) {
   error("Can't read tags.");
   exit(1);
-} else if (gitTags.output.split("\n").indexOf(version) > -1) {
+} else if (gitTags.stdout.split("\n").indexOf(version) > -1) {
   error("Tag already exist.");
   exit(1);
 }

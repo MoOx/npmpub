@@ -27,7 +27,7 @@
     "chalk": "^1.1.1",
     "github-release-from-changelog": "^2.0.0",
     "minimist": "^1.2.0",
-    "shelljs": "^0.5.3",
+    "shelljs": "^0.8.5",
     "trash": "^3.4.1"
   },
   "devDependencies": {
