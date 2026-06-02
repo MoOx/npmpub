@@ -1,5 +1,16 @@
 # `npmpub` Changelog
 
+## 6.0.0 - 2026-06-02
+
+**Maintenance & modernization release. Now requires Node.js >= 18.**
+
+- Breaking: drop support for Node.js < 18.
+- Changed: `npmpub` is now an ES module.
+- Changed: replaced `shelljs` with Node.js built-in `child_process`.
+- Updated: `chalk` to v5, `trash` to v10, `github-release-from-changelog` to v3.
+- Fixed: resolved all `npm audit` vulnerabilities.
+- Internal: switched from ESLint + Prettier to oxlint + oxfmt.
+
 ## 5.1.1 - 2022-04-13
 
 - Bump shelljs to avoid security issue.
