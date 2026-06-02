@@ -1,7 +1,17 @@
 # npmpub
 
-[![Build Status](https://github.com/MoOx/npmpub/workflows/Build/badge.svg)](https://github.com/MoOx/npmpub/actions)
-[![NPM version](https://img.shields.io/npm/v/npmpub.svg?style=flat)](https://www.npmjs.com/package/npmpub)
+<a href="https://github.com/MoOx/react-from-svg?sponsor=1">
+  <img width="140" align="right" alt="Sponsoring button" src="https://github.com/moox/.github/raw/main/FUNDING.svg">
+</a>
+
+[![npm package version](https://img.shields.io/github/package-json/v/MoOx/npmpub) ![npm downloads](https://img.shields.io/npm/dm/npmpub)](https://www.npmjs.com/package/npmpub)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/MoOx/npmpub/test.yml)](https://github.com/MoOx/npmpub/actions)
+[![License](https://img.shields.io/github/license/MoOx/npmpub)](https://github.com/MoOx/npmpub)  
+![My website moox.io](https://img.shields.io/badge/%F0%9F%8C%90-https%3A%2F%2Fmoox.io-gray?style=social)
+[![GitHub followers](https://img.shields.io/github/followers/MoOx?style=social&label=GitHub)](https://github.com/MoOx)
+[![LinkedIn Follow](https://img.shields.io/badge/%F0%9F%91%94-LinkedIn-gray?style=social&link=https%3A%2F%2Fwww.linkedin.com%2Fin%2Fmaxthirouin%2F)](https://www.linkedin.com/in/maxthirouin/)
+[![BlueSky Follow](https://img.shields.io/badge/BlueSky-%20?style=social&logo=bluesky)](https://bsky.app/profile/moox.io)
+[![X Follow](https://img.shields.io/twitter/follow/MoOx?style=social&label=)](https://x.com/MoOx)
 
 > `npm publish` on steroid
 

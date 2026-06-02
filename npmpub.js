@@ -1,26 +1,38 @@
-const path = require("path");
-const readline = require("readline");
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
+import { spawnSync } from "node:child_process";
+import { createInterface } from "node:readline/promises";
 
-const colors = require("chalk");
-const sh = require("shelljs");
-const parseArgs = require("minimist");
-const trash = require("trash");
+import colors from "chalk";
+import parseArgs from "minimist";
+import trash from "trash";
 
-const exec = sh.exec;
-const exit = sh.exit;
+// Minimal shelljs replacement: run a command through the shell, capture its
+// output, and echo it unless `silent` is requested.
+const exec = (cmd, { silent = false } = {}) => {
+  const result = spawnSync(cmd, { shell: true, encoding: "utf8" });
+  const stdout = result.stdout || "";
+  const stderr = result.stderr || "";
+  if (!silent) {
+    if (stdout) process.stdout.write(stdout);
+    if (stderr) process.stderr.write(stderr);
+  }
+  return { code: result.status == null ? 1 : result.status, stdout, stderr };
+};
+const exit = (code) => process.exit(code);
 
 const argv = parseArgs(process.argv.slice(2), {
   boolean: true,
   default: {
-    release: true
-  }
+    release: true,
+  },
 });
 
-const print = msg => console.log("📦  " + msg);
-const notice = msg => print(colors.yellow.bold(msg));
-const log = msg => argv.verbose && print(colors.yellow(msg));
-const debug = msg => argv.debug && print(msg);
-const error = msg => print(colors.red.bold(msg));
+const print = (msg) => console.log("📦  " + msg);
+const notice = (msg) => print(colors.yellow.bold(msg));
+const log = (msg) => argv.verbose && print(colors.yellow(msg));
+const debug = (msg) => argv.debug && print(msg);
+const error = (msg) => print(colors.red.bold(msg));
 
 const cmds = {
   isYarn: "ls yarn.lock",
@@ -28,11 +40,10 @@ const cmds = {
   install: undefined, // defined after isYarn test
   gitStatus: "git status --porcelain",
   gitFetch: "git fetch --quiet",
-  gitCheckRemote: "git rev-list --count --left-only @'{u}'...HEAD"
+  gitCheckRemote: "git rev-list --count --left-only @'{u}'...HEAD",
 };
 
 if (argv["help"]) {
-  /* eslint-disable max-len */
   console.log(`npmpub [options]
 
   --help          Just what you are reading.
@@ -48,7 +59,6 @@ if (argv["help"]) {
   --dry           No publish, just check that tests are ok.
   --no-release    No GitHub release from changelog.
 `);
-  /* eslint-enable max-len */
   exit(0);
 }
 
@@ -63,8 +73,7 @@ if (isYarn) {
 
 // check if package-lock is used
 debug(cmds.isPackageLockPresent);
-const isPackageLockPresent =
-  exec(cmds.isPackageLockPresent, execOpts).code === 0;
+const isPackageLockPresent = exec(cmds.isPackageLockPresent, execOpts).code === 0;
 if (isPackageLockPresent) {
   log("package-lock.json detected.");
 }
@@ -119,9 +128,9 @@ if (argv["skip-compare"]) {
   }
 }
 
-const pkg = path.join(process.cwd(), "package.json");
+const pkg = join(process.cwd(), "package.json");
 log("package.json is '" + pkg + "'.");
-const version = require(pkg).version;
+const version = JSON.parse(readFileSync(pkg, "utf8")).version;
 notice("Preparing v" + version + ".");
 
 log("Checking existing tags.");
@@ -140,7 +149,7 @@ if (argv["skip-cleanup"]) {
   cleanupPromise = Promise.resolve();
 } else {
   log("Cleaning node_modules.");
-  const nodeModules = path.join(process.cwd(), "node_modules");
+  const nodeModules = join(process.cwd(), "node_modules");
   if (argv.verbose) {
     debug("Will delete '" + nodeModules + "'.");
   }
@@ -148,17 +157,12 @@ if (argv["skip-cleanup"]) {
     log("node_modules deleted.");
 
     notice("Running '" + cmds.install + "'. This can take a while.");
-    return new Promise(resolve => {
-      exec(cmds.install, execOpts, (code, stdout, stderr) => {
-        if (code === 0) {
-          resolve();
-        } else {
-          console.log(stderr);
-          error(cmds.install + " failed.");
-          exit(1);
-        }
-      });
-    });
+    const install = exec(cmds.install, execOpts);
+    if (install.code !== 0) {
+      console.log(install.stderr);
+      error(cmds.install + " failed.");
+      exit(1);
+    }
   });
 }
 
@@ -180,17 +184,12 @@ cleanupPromise
       const flags = [];
       // prompt user to enter npm's two-factor authentication's one-time-password
       if (argv["otp"]) {
-        let otp = await new Promise(resolve => {
-          const rl = readline.createInterface({
-            input: process.stdin,
-            output: process.stdout
-          });
-
-          rl.question("Enter OTP:", answer => {
-            rl.close();
-            resolve(answer);
-          });
+        const rl = createInterface({
+          input: process.stdin,
+          output: process.stdout,
         });
+        const otp = await rl.question("Enter OTP:");
+        rl.close();
         flags.push(`--otp=${otp}`);
       }
 
@@ -207,9 +206,7 @@ cleanupPromise
       }
 
       log("Tagging.");
-      const gitTag = exec(
-        'git tag -m "Release version ' + version + '" -a ' + version
-      );
+      const gitTag = exec('git tag -m "Release version ' + version + '" -a ' + version);
       if (gitTag.code !== 0) {
         error("Tagging failed.");
         exit(1);
@@ -226,9 +223,7 @@ cleanupPromise
         log("No GitHub release.");
       } else {
         log("GitHub release.");
-        const githubRelease = exec(
-          "./node_modules/.bin/github-release-from-changelog"
-        );
+        const githubRelease = exec("./node_modules/.bin/github-release-from-changelog");
         if (githubRelease.code !== 0) {
           error("GitHub release failed.");
           exit(1);
@@ -236,7 +231,7 @@ cleanupPromise
       }
     }
   })
-  .catch(err => {
+  .catch((err) => {
     if (err) {
       setTimeout(() => {
         throw err;
