@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { spawnSync } from "node:child_process";
 import { createInterface } from "node:readline/promises";
@@ -8,9 +8,15 @@ import parseArgs from "minimist";
 import trash from "trash";
 
 // Minimal shelljs replacement: run a command through the shell, capture its
-// output, and echo it unless `silent` is requested.
+// output, and echo it unless `silent` is requested. stdin is inherited so
+// commands that prompt (e.g. npm auth) keep working.
 const exec = (cmd, { silent = false } = {}) => {
-  const result = spawnSync(cmd, { shell: true, encoding: "utf8" });
+  const result = spawnSync(cmd, {
+    shell: true,
+    encoding: "utf8",
+    stdio: ["inherit", "pipe", "pipe"],
+    maxBuffer: 100 * 1024 * 1024,
+  });
   const stdout = result.stdout || "";
   const stderr = result.stderr || "";
   if (!silent) {
@@ -35,8 +41,8 @@ const debug = (msg) => argv.debug && print(msg);
 const error = (msg) => print(colors.red.bold(msg));
 
 const cmds = {
-  isYarn: "ls yarn.lock",
-  isPackageLockPresent: "ls package-lock.json",
+  isYarn: join(process.cwd(), "yarn.lock"),
+  isPackageLockPresent: join(process.cwd(), "package-lock.json"),
   install: undefined, // defined after isYarn test
   gitStatus: "git status --porcelain",
   gitFetch: "git fetch --quiet",
@@ -66,14 +72,14 @@ const execOpts = { silent: !argv.debug };
 
 // check if yarn is used
 debug(cmds.isYarn);
-const isYarn = exec(cmds.isYarn, execOpts).code === 0;
+const isYarn = existsSync(cmds.isYarn);
 if (isYarn) {
   log("Yarn detected.");
 }
 
 // check if package-lock is used
 debug(cmds.isPackageLockPresent);
-const isPackageLockPresent = exec(cmds.isPackageLockPresent, execOpts).code === 0;
+const isPackageLockPresent = existsSync(cmds.isPackageLockPresent);
 if (isPackageLockPresent) {
   log("package-lock.json detected.");
 }
@@ -188,7 +194,7 @@ cleanupPromise
           input: process.stdin,
           output: process.stdout,
         });
-        const otp = await rl.question("Enter OTP:");
+        const otp = (await rl.question("Enter OTP:")).trim();
         rl.close();
         flags.push(`--otp=${otp}`);
       }
