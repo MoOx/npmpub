@@ -1,5 +1,9 @@
 # `npmpub` Changelog
 
+## 6.0.1 - 2026-06-02
+
+- Fixed: github-release-from-changelog call when using npx.
+
 ## 6.0.0 - 2026-06-02
 
 **Maintenance & modernization release. Now requires Node.js >= 18.**
