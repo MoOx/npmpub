@@ -1,7 +1,20 @@
 import { existsSync, readFileSync } from "node:fs";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
 import { spawnSync } from "node:child_process";
+import { createRequire } from "node:module";
 import { createInterface } from "node:readline/promises";
+
+const require = createRequire(import.meta.url);
+
+// Resolve a dependency's bin script from npmpub's own module tree, so it works
+// whether npmpub is run via `npx`, installed as a dependency, or locally —
+// regardless of how node_modules is hoisted.
+const resolveBin = (pkgName, binName = pkgName) => {
+  const pkgJsonPath = require.resolve(`${pkgName}/package.json`);
+  const pkg = JSON.parse(readFileSync(pkgJsonPath, "utf8"));
+  const bin = typeof pkg.bin === "string" ? pkg.bin : pkg.bin[binName];
+  return join(dirname(pkgJsonPath), bin);
+};
 
 import colors from "chalk";
 import parseArgs from "minimist";
@@ -229,7 +242,8 @@ cleanupPromise
         log("No GitHub release.");
       } else {
         log("GitHub release.");
-        const githubRelease = exec("./node_modules/.bin/github-release-from-changelog");
+        const githubReleaseBin = resolveBin("github-release-from-changelog");
+        const githubRelease = exec(`node "${githubReleaseBin}"`);
         if (githubRelease.code !== 0) {
           error("GitHub release failed.");
           exit(1);
