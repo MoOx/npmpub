@@ -23,16 +23,25 @@ import trash from "trash";
 // Minimal shelljs replacement: run a command through the shell, capture its
 // output, and echo it unless `silent` is requested. stdin is inherited so
 // commands that prompt (e.g. npm auth) keep working.
-const exec = (cmd, { silent = false } = {}) => {
+//
+// `interactive: true` fully inherits stdio (stdout & stderr go straight to the
+// terminal) instead of capturing them. This is required for npm's modern
+// web-based auth flow: npm only prints its clickable "Authenticate at <url>"
+// link and opens the browser when it detects a real TTY on stdout. With piped
+// output npm falls back to a degraded mode and the link only surfaces once the
+// command is done — too late to click. The trade-off is that result.stdout /
+// result.stderr come back empty, so only use it for commands where we just
+// care about the exit code.
+const exec = (cmd, { silent = false, interactive = false } = {}) => {
   const result = spawnSync(cmd, {
     shell: true,
     encoding: "utf8",
-    stdio: ["inherit", "pipe", "pipe"],
+    stdio: interactive ? "inherit" : ["inherit", "pipe", "pipe"],
     maxBuffer: 100 * 1024 * 1024,
   });
   const stdout = result.stdout || "";
   const stderr = result.stderr || "";
-  if (!silent) {
+  if (!interactive && !silent) {
     if (stdout) process.stdout.write(stdout);
     if (stderr) process.stderr.write(stderr);
   }
@@ -76,7 +85,9 @@ if (argv["help"]) {
   --skip-compare  Skip git comparison with origin (⚠︎ you might not be able to push).
   --skip-cleanup  Skip node_modules cleanup (⚠︎ you might miss some dependencies changes).
   --skip-test     Skip test (⚠︎ USE THIS VERY CAREFULLY).
-  --otp           Prompt for npm's 2FA one-time-password before publishing
+  --otp           Prompt for a 2FA one-time-password and pass it to npm. Optional:
+                  without it, npm's web-based auth flow is used (clickable link,
+                  browser-filled code), which is usually faster.
   --public        Set access to public when publishing @scoped/package
   --tag <tag>     Publish under a given npm dist-tag (e.g. beta, legacy-v6) instead of latest
   --dry           No publish, just check that tests are ok.
@@ -228,7 +239,10 @@ cleanupPromise
       }
 
       notice("Publishing" + (argv["tag"] ? ` under tag '${argv["tag"]}'` : "") + "...");
-      const npmPublish = exec(`npm publish ${flags.join(" ")}`);
+      // Run interactively so npm's web-based auth flow works: when no --otp is
+      // given and 2FA is required, npm prints a clickable link and waits for the
+      // browser to confirm — much faster than copy-pasting a code by hand.
+      const npmPublish = exec(`npm publish ${flags.join(" ")}`, { interactive: true });
       if (npmPublish.code !== 0) {
         error("Publishing failed.");
         exit(1);
