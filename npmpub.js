@@ -41,7 +41,10 @@ const exec = (cmd, { silent = false } = {}) => {
 const exit = (code) => process.exit(code);
 
 const argv = parseArgs(process.argv.slice(2), {
-  boolean: true,
+  // `tag` takes a value (the npm dist-tag); everything else is a boolean flag.
+  // We can't use `boolean: true` globally here because it would also coerce
+  // `--tag beta` into `tag: true` and drop "beta" as a positional argument.
+  string: ["tag"],
   default: {
     release: true,
   },
@@ -75,6 +78,7 @@ if (argv["help"]) {
   --skip-test     Skip test (⚠︎ USE THIS VERY CAREFULLY).
   --otp           Prompt for npm's 2FA one-time-password before publishing
   --public        Set access to public when publishing @scoped/package
+  --tag <tag>     Publish under a given npm dist-tag (e.g. beta, legacy-v6) instead of latest
   --dry           No publish, just check that tests are ok.
   --no-release    No GitHub release from changelog.
 `);
@@ -217,7 +221,13 @@ cleanupPromise
         flags.push("--access=public");
       }
 
-      notice("Publishing...");
+      // publish under a given npm dist-tag (e.g. beta, legacy-v6) instead of the
+      // default "latest" — useful for prereleases or maintenance branches
+      if (argv["tag"]) {
+        flags.push(`--tag=${argv["tag"]}`);
+      }
+
+      notice("Publishing" + (argv["tag"] ? ` under tag '${argv["tag"]}'` : "") + "...");
       const npmPublish = exec(`npm publish ${flags.join(" ")}`);
       if (npmPublish.code !== 0) {
         error("Publishing failed.");

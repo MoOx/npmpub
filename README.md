@@ -127,6 +127,7 @@ npmpub [options]
 --skip-test     Skip test (⚠︎ USE THIS VERY CAREFULLY).
 --otp           Prompt for npm's 2FA one-time-password before publishing
 --public        Set access to public when publishing @scoped/package
+--tag <tag>     Publish under a given npm dist-tag (e.g. beta, legacy-v6) instead of latest
 --dry           No publish, just check that tests are ok.
 --no-release    No GitHub release from changelog.
 ```
