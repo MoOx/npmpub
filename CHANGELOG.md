@@ -1,5 +1,10 @@
 # `npmpub` Changelog
 
+## 6.1.0 - 2026-06-24
+
+- Added: `--tag <tag>` flag to publish under a given npm dist-tag (e.g. `beta`, `legacy-v6`) instead of `latest`.
+- Improved: `npm publish` now runs with inherited stdio, so npm's web-based 2FA flow works out of the box — a clickable authentication link is shown and the code is filled by the browser. `--otp` is now optional (manual entry) rather than required.
+
 ## 6.0.1 - 2026-06-02
 
 - Fixed: github-release-from-changelog call when using npx.
