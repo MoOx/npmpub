@@ -125,6 +125,7 @@ npmpub [options]
 --skip-compare  Skip git comparison with origin (⚠︎ you might not be able to push).
 --skip-cleanup  Skip node_modules cleanup (⚠︎ you might miss some dependencies changes).
 --skip-test     Skip test (⚠︎ USE THIS VERY CAREFULLY).
+--skip-auth     Skip the npm authentication check (⚠︎ publish may fail at the very end).
 --otp           Prompt for a 2FA one-time-password and pass it to npm. Optional:
                 without it, npm's web-based auth flow is used (clickable link,
                 browser-filled code), which is usually faster.

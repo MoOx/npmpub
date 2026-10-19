@@ -72,6 +72,7 @@ const cmds = {
   gitStatus: "git status --porcelain",
   gitFetch: "git fetch --quiet",
   gitCheckRemote: "git rev-list --count --left-only @'{u}'...HEAD",
+  npmWhoami: "npm whoami",
 };
 
 if (argv["help"]) {
@@ -85,6 +86,7 @@ if (argv["help"]) {
   --skip-compare  Skip git comparison with origin (⚠︎ you might not be able to push).
   --skip-cleanup  Skip node_modules cleanup (⚠︎ you might miss some dependencies changes).
   --skip-test     Skip test (⚠︎ USE THIS VERY CAREFULLY).
+  --skip-auth     Skip the npm authentication check (⚠︎ publish may fail at the very end).
   --otp           Prompt for a 2FA one-time-password and pass it to npm. Optional:
                   without it, npm's web-based auth flow is used (clickable link,
                   browser-filled code), which is usually faster.
@@ -175,6 +177,35 @@ if (gitTags.code !== 0) {
 } else if (gitTags.stdout.split("\n").indexOf(version) > -1) {
   error("Tag already exist.");
   exit(1);
+}
+
+// check npm authentication, before the expensive steps rather than after them.
+// `npm publish` answers a bare 404 when the token is missing, expired or has no
+// publish right on the package, and it never prompts for credentials on its
+// own. Discovering that once node_modules has been trashed, reinstalled and the
+// whole suite has run costs minutes for nothing, so log in here instead.
+if (argv["skip-auth"]) {
+  log("npm authentication check skipped.");
+} else if (argv.dry) {
+  log("Dry run: npm authentication not checked.");
+} else {
+  debug(cmds.npmWhoami);
+  let whoami = exec(cmds.npmWhoami, { silent: true });
+  if (whoami.code !== 0) {
+    notice("Not authenticated with npm. Running 'npm login'...");
+    // Interactive, so npm's web-based auth flow can print its clickable link.
+    const npmLogin = exec("npm login", { interactive: true });
+    if (npmLogin.code !== 0) {
+      error("npm login failed.");
+      exit(1);
+    }
+    whoami = exec(cmds.npmWhoami, { silent: true });
+    if (whoami.code !== 0) {
+      error("Still not authenticated with npm after login.");
+      exit(1);
+    }
+  }
+  log("npm user is '" + whoami.stdout.trim() + "'.");
 }
 
 let cleanupPromise;
