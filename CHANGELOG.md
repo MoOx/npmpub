@@ -1,5 +1,10 @@
 # `npmpub` Changelog
 
+## 6.1.1 - 2026-10-19
+
+- Added: `--skip-auth` flag to skip the npm authentication check.
+- Improved: npm authentication is now checked before the cleanup and test steps, and `npm login` runs inline when it fails. A missing or expired token used to surface as a bare 404 from `npm publish`, several minutes in, with no way to log in from there.
+
 ## 6.1.0 - 2026-06-24
 
 - Added: `--tag <tag>` flag to publish under a given npm dist-tag (e.g. `beta`, `legacy-v6`) instead of `latest`.
