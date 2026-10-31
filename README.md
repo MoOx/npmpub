@@ -43,6 +43,9 @@ need a `$GITHUB_TOKEN` available as an env variable.
 If you want to use everything except this feature, just use the `--no-release`
 option (see below)._
 
+- The token only needs permission to create a GitHub release: the `repo`
+  scope for public and private repositories, or `public_repo` for public
+  repositories only.
 - You can generate a
   [token from GitHub interface](https://help.github.com/articles/creating-an-access-token-for-command-line-use/)
 - Put it in `~/.github_token`
