@@ -43,11 +43,13 @@ need a `$GITHUB_TOKEN` available as an env variable.
 If you want to use everything except this feature, just use the `--no-release`
 option (see below)._
 
-- The token only needs permission to create a GitHub release: the `repo`
-  scope for public and private repositories, or `public_repo` for public
-  repositories only.
 - You can generate a
-  [token from GitHub interface](https://help.github.com/articles/creating-an-access-token-for-command-line-use/)
+  [token from GitHub interface](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens).
+  It only needs permission to create a GitHub release:
+  - fine-grained token (recommended): the `Contents: Read and write`
+    repository permission, limited to the repositories you publish
+  - classic token: the `public_repo` scope for public repositories only, or
+    the `repo` scope for public and private repositories
 - Put it in `~/.github_token`
 - In your `.bashrc/zshrc`, export it by adding
   `export GITHUB_TOKEN=$(cat $HOME/.github_token)`.
